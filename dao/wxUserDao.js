@@ -11,10 +11,18 @@ async function init(){
     return collection;
 }
 function add(openid,createTime){
-    return collection.insert({openid,createTime});
+    return collection.insert({openid,createTime,deleted:false});
 }
 function getList(){
     return collection.find({});
 }
+
+/**
+ * 并不是真正的删除
+ * @param openid
+ */
+function remove(openid){
+    return collection.update({openid:openid,deleted:false},{$set:{deleted:true}});
+}
 init();
-module.exports={add,getList};
+module.exports={add,getList,remove};
